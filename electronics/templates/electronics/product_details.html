@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Store</title>
+  <style>
+    /* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Header and Navbar */
+header {
+  position: sticky;
+  top: 0;
+  background-color: #333;
+  color: white;
+  padding: 20px 0;
+  z-index: 1000;
+}
+
+.header-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-img {
+  width: 120px;
+  height: auto;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  font-size: 1.2rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ff5722;
+}
+
+/* Intro Section */
+.intro {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #fff;
+  margin-bottom: 40px;
+}
+
+.intro h1 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.intro p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Product Cards */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.product-card {
+  background-color: white;
+  width: 280px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.product-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.product-name {
+  font-size: 1.6rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+.product-description {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 15px;
+}
+
+.product-price {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #ff5722;
+  margin-bottom: 15px;
+}
+
+.product-actions button {
+  width: 45%;
+  padding: 10px 0;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: transform 0.3s ease;
+}
+
+.add-to-cart {
+  background-color: #4caf50;
+  color: white;
+}
+
+.buy-now {
+  background-color: #ff5722;
+  color: white;
+  margin-left: 10px;
+}
+
+
+  </style>
+  <link rel="icon" href="favicon.ico"> <!-- Optional logo icon -->
+</head>
+<body>
+  <!-- Header with logo and navbar -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsbKaQB-x5qnIw9klBMHYa_cGB7-4WM2U_cA&s" alt="Store Logo" class="logo-img"> <!-- Add your logo here -->
+      </div>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/shop">Shop</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/cart">Cart (0)</a></li> <!-- Link to cart -->
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section class="intro">
+      <h1>Welcome to Our Online Store</h1>
+      <p>Your one-stop destination for amazing products at unbeatable prices!</p>
+    </section>
+
+    <div class="product-list">
+      {% for pro in prod %}
+        <div class="product-card">
+          <img src="{{ pro.image_url }}" alt="{{ pro.name }}" class="product-img">
+          <h2 class="product-name">{{ pro.name }}</h2>
+          <p class="product-description">{{ pro.description }}</p>
+          <p class="product-price">${{ pro.price }}</p>
+          <div class="product-actions">
+            <button class="add-to-cart" data-product-id="{{ pro.id }}">Add to Cart</button>
+            <button class="buy-now" data-product-id="{{ pro.id }}">Buy Now</button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2025 Online Store. All rights reserved.</p>
+      <div class="social-links">
+        <a href="https://facebook.com" target="_blank">Facebook</a>
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  const buyNowButtons = document.querySelectorAll('.buy-now');
+
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const productId = this.getAttribute('data-product-id');
+      // Simulate adding the product to the cart (localStorage or AJAX could be used here)
+      alert('Product ' + productId + ' added to cart');
+      updateCartCount();
+    });
+  });
+
+  buyNowButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const productId = this.getAttribute('data-product-id');
+      // Redirect to the checkout page or show a modal for buying now
+      window.location.href = '/checkout?product_id=' + productId;
+    });
+  });
+
+  // Update cart count in navbar (This can be dynamic based on actual cart data)
+  function updateCartCount() {
+    const cartCount = 1;  // Replace this with dynamic cart item count logic
+    const cartLink = document.querySelector('.cart a');
+    cartLink.textContent = 'Cart (' + cartCount + ')';
+  }
+
+  updateCartCount();
+});
+
+  </script> <!-- Include your JavaScript file for interactivity -->
+</body>
+</html>
